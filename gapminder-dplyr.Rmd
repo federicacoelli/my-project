@@ -83,10 +83,7 @@ gapminder %>%
   summarise(mean_gdp = mean(gdp)) %>% 
   ungroup() # do this is you group by
 
-
-
-
-
+# str(a) look at structure of data
 
 
 
