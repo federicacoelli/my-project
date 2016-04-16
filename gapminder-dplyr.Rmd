@@ -1,0 +1,98 @@
+---
+title: "Gapminder analysis with dplyr"
+author: "Federica Coelli"
+date: "16 april 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) 
+```
+
+## Load dplyr (this is second header)
+
+```{r}
+# install.packages("dplyr") # do this only once
+library(dplyr) # do this every time I restart R and need dplyr
+
+```
+
+## Load gapminder
+
+```{r}
+# install.packages("gapminder")
+library(gapminder)
+```
+
+## Exploration with gapminder
+
+```{r, echo=TRUE}
+filter(gapminder, lifeExp <29)
+## Compare without dplyr
+gapminder[gapminder$lifeExp < 29, ]
+
+filter(gapminder, country == "Rwanda")
+## Compare without dplyr
+subset(gapminder, country == "Rwanda")
+
+a <- filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
+
+```
+
+
+## The pipe operator %>%
+```{r}
+gapminder %>% head
+head(gapminder) # same as
+
+gapminder %>% head(3)
+head(gapminder, 3)
+```
+
+
+## Subset with select
+```{r}
+#subset(gapminder, year, lifeExp) # compare to pipe operato(r
+gapminder[,c('year','lifeExp')]
+gapminder %>%
+  select(year, lifeExp)
+# take whatever is on the left of the %>% and passes it to whatever is on the right as the first argument
+gapminder %>% 
+  select(year, lifeExp) %>%
+  head(4)
+# take gapminder, select the vars year and lifeExp, then give me the first 4 rows
+
+# calculate meand GDP of Cambodia
+gapminder %>%
+  filter(country == "Cambodia") %>% 
+  select(country, year, pop, gdpPercap) # Stata equivalent: keep
+  #select(-continent, -lifeExp) # Stata equivalent: drop
+# compare to base R
+gapminder[gapminder$country == "Cambodia", c("country", "year", "pop", "gdpPercap")]
+
+# continue with mutate
+gapminder %>%
+  mutate(gdp = pop*gdpPercap)
+
+# combine the 2
+gapminder %>%
+  #filter(country == "Cambodia") %>% 
+  select(country, year, pop, gdpPercap)  %>% 
+  mutate(gdp = pop*gdpPercap) %>% 
+  group_by(country) %>%
+  summarise(mean_gdp = mean(gdp)) %>% 
+  ungroup() # do this is you group by
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
