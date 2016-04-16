@@ -1,5 +1,7 @@
 # my-project
 
+**Emphasis** on a _word_
+
 Playing with [Software Carpentry at UCSB](http://remi-daigle.github.io/2016-04-15-UCSB).
 
 ## Introduction
